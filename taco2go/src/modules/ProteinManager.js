@@ -10,3 +10,9 @@ export const getAllProteins = () => {
   return fetch(`${remoteURL}/proteins`)
   .then(res => res.json())
 }
+
+export const deleteProtein = (id) => {
+    return fetch(`${remoteURL}/proteins/${id}`, {
+      method: "DELETE"
+    }).then(result => result.json())
+  }
