@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
-import { getAllProteins, getProteinById } from '../../modules/ProteinManager';
+import React, { useEffect, useState } from 'react';
+import { ProteinCard } from './ProteinCard';
+import { getAllProteins, getProteinById, deleteProtein } from '../../modules/ProteinManager';
 
 export const ProteinList = () => {
-  const getProteins = () => {
+    const [proteins, setProteins] = useState([]);
+  
+    const getProteins = () => {
     return getAllProteins().then(proteinsFromAPI => {
       // We'll do something more interesting with this data soon.
       console.log(proteinsFromAPI);
     });
   };
+
+    const handleDeleteProtein = id => {
+        deleteProtein(id)
+        .then(() => getAllProteins().then(setProteins));
+    };
 
   useEffect(() => {
     getProteins();
@@ -15,7 +23,11 @@ export const ProteinList = () => {
 
   return (
     <div className="container-cards">
-      We'll put some animals here eventually...
-    </div>
+    {proteins.map(protein =>
+      <ProteinCard
+        key={protein.id}
+        protein={protein}
+        handleDeleteProtein={handleDeleteProtein} />)}
+  </div>
   );
 };
