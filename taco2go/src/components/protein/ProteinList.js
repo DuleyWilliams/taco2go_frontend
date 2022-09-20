@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ProteinCard } from './ProteinCard';
+import {useParams, useNavigate} from "react-router-dom"
 import { getAllProteins, getProteinById, deleteProtein } from '../../modules/ProteinManager';
 
 export const ProteinList = () => {
     const [proteins, setProteins] = useState([]);
+
+    const navigate = useNavigate();
   
     const getProteins = () => {
     return getAllProteins().then(proteinsFromAPI => {
@@ -22,6 +25,14 @@ export const ProteinList = () => {
   }, []);
 
   return (
+    <>
+    <section className="section-content">
+    <button type="button"
+        className="btn"
+        onClick={() => {navigate("/proteins/create")}}>
+        Protein
+    </button>
+    </section>
     <div className="container-cards">
     {proteins.map(protein =>
       <ProteinCard
@@ -29,5 +40,6 @@ export const ProteinList = () => {
         protein={protein}
         handleDeleteProtein={handleDeleteProtein} />)}
   </div>
+  </>
   );
 };
